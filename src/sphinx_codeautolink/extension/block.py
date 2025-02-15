@@ -113,6 +113,7 @@ class CodeBlockAnalyser(nodes.SparseNodeVisitor):
         global_preface: list[str],
         custom_blocks: dict[str, Callable[[str], str]],
         concat_default: bool,
+        highlight_language: str,
         **kwargs,
     ) -> None:
         super().__init__(*args, **kwargs)
@@ -129,6 +130,7 @@ class CodeBlockAnalyser(nodes.SparseNodeVisitor):
         self.concat_global = concat_default
         self.concat_section = False
         self.concat_sources = []
+        self.highlight_language = highlight_language
         self.skip = None
 
     def unknown_visit(self, node) -> None:
@@ -185,7 +187,7 @@ class CodeBlockAnalyser(nodes.SparseNodeVisitor):
 
     def visit_literal_block(self, node: nodes.literal_block):
         """Visit a generic literal block."""
-        return self.parse_source(node, node.get("language", None))
+        return self.parse_source(node, node.get("language", self.highlight_language))
 
     def parse_source(
         self, node: nodes.literal_block | nodes.doctest_block, language: str | None

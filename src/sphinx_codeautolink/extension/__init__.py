@@ -136,6 +136,7 @@ class SphinxCodeAutoLink:
             global_preface=self.global_preface,
             custom_blocks=self.custom_blocks,
             concat_default=self.concat_default,
+            highlight_language=self.highlight_language,
         )
         doctree.walkabout(visitor)
         self.cache.transforms[visitor.current_document] = visitor.source_transforms
